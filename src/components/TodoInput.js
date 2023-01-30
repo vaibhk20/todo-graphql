@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const TodoInput = (props) => {
   const { todo, handleSubmit, onChangeHandler } = props;
@@ -11,7 +11,6 @@ const TodoInput = (props) => {
           className=" m-0 w-96 py-4 px-2 italic font-thin focus:border-current"
           value={todo}
           onChange={onChangeHandler}
-          spellcheck="false"
         />
         <button className="bg-white p-4 text-gray-400" onClick={handleSubmit}>
           Add

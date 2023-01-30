@@ -1,9 +1,8 @@
 import React, { useRef } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
 import TodoInput from "../components/TodoInput";
 import TodoList from "../components/TodoList";
-import uniqid from "uniqid";
 import { GET_TODOS } from "../GrpahQL/Query";
 import {
   ADD_TODO,
@@ -14,7 +13,6 @@ import {
 
 const Todo = () => {
   const [todoItem, setTodoItem] = useState("");
-  const [todo, setTodo] = useState([]);
   const [editedItem, setEdited] = useState("");
   const labelRef = useRef();
   const { loading, error, data, refetch } = useQuery(GET_TODOS);
@@ -47,11 +45,6 @@ const Todo = () => {
     e.preventDefault();
     setTodoItem(e.target.value);
     if (todoItem !== " " || /^\s*$/.test(todoItem)) {
-      let value = [
-        { id: uniqid(), task: todoItem, isCompleted: false },
-        ...todo,
-      ];
-      setTodo(value);
       let temp_id = Date.now();
       insert_getTodos_one({
         variables: {
@@ -64,8 +57,6 @@ const Todo = () => {
   };
 
   const handleDelete = (id) => {
-    let newTodo = todo.filter((t) => t.id !== id);
-    setTodo(newTodo);
     delete_getTodos_by_pk({
       variables: {
         id: id,
@@ -126,6 +117,9 @@ const Todo = () => {
       {data?.getTodos?.map((todo) => {
         if (loading) {
           return <h5>loading..</h5>;
+        }
+        if (error) {
+          console.log(error.message);
         } else {
           return (
             <TodoList

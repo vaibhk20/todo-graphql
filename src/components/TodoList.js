@@ -14,7 +14,12 @@ const TodoList = (props) => {
   return (
     <div className="flex justify-between align-center w-1/3 mb-1 rounded bg-white p-4 drop-shadow-sm focus:border-[#e8d4d5] ">
       <div>
-        <input type="checkbox" className="mx-3" onClick={handleChange} />
+        <input
+          type="checkbox"
+          className="mx-3"
+          onChange={handleChange}
+          checked={isCompleted}
+        />
         <label
           className={`${
             isCompleted ? "line-through" : ""
@@ -24,6 +29,7 @@ const TodoList = (props) => {
           onInput={handleEdit}
           onKeyDown={handleEditKey}
           onBlur={handleBlurSubmit}
+          spellCheck="false"
         >
           {value}
         </label>
